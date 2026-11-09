@@ -1,8 +1,17 @@
- function pingProblem(req,res){
-    try{
+function pingProblem(req, res) {
+    try {
         console.log('Ping Controller');
-    }catch(err){
-        console.log(`Error: $err`);
+
+        return res.status(200).json({
+            success: true,
+            message: "Problem Controller is working!"
+        });
+
+    } catch (err) {
+        return res.status(500).json({
+            success: false,
+            message: err.message
+        });
     }
 }
 
@@ -12,10 +21,16 @@
         console.log("Request Cannot be empty");
         }
         // const problem = await 
-        console.log("get all controller working properly");
+             return res.status(200).json({
+            success: true,
+            message: "Problem Controller  getAllProblem Controller is working!"
+        });
 
-    }catch(err){
-        console.log(`Error: $err`);
+    } catch (err) {
+        return res.status(500).json({
+            success: false,
+            message: err.message
+        });
     }
 }
 
@@ -25,10 +40,16 @@
         console.log("Request Cannot be empty");
         }
         // const problem = await 
-        console.log("Create controller working properly");
+            return res.status(200).json({
+            success: true,
+            message: "Problem Controller create problem controller is working!"
+        });
 
-    }catch(err){
-        console.log(`Error: $err`);
+    } catch (err) {
+        return res.status(500).json({
+            success: false,
+            message: err.message
+        });
     }
 }
 
@@ -39,10 +60,16 @@
         }
         const {id} = req.params;
         // const problem = await 
-        console.log(`get problem by ID: ${id} controller working properly`);
+            return res.status(200).json({
+            success: true,
+            message: `Problem Controller get Problem by id: ${id} is working!`
+        });
 
-    }catch(err){
-        console.log(`Error: $err`);
+    } catch (err) {
+        return res.status(500).json({
+            success: false,
+            message: err.message
+        });
     }
 }
 
@@ -53,24 +80,36 @@
         }
         const {id} = req.params;
         // const problem = await 
-        console.log(`update problem by ID: ${id} controller working properly`);
+              return res.status(200).json({
+            success: true,
+            message: `Problem Controller update Problem by id: ${id} is working!`
+        });
 
-    }catch(err){
-        console.log(`Error: $err`);
+    } catch (err) {
+        return res.status(500).json({
+            success: false,
+            message: err.message
+        });
     }
 }
 
-async function deleteProblem(req,res){
+function deleteProblem(req,res){
     try{
         if(!req.body || Object.keys(req.body).length === 0){
         console.log("Request Cannot be empty");
         }
         const {id} = req.params;
         // const problem = await 
-        console.log(`delete problem by ID: ${id} controller working properly`);
+              return res.status(200).json({
+            success: true,
+            message: `Problem Controller delete Problem by id: ${id} is working!`
+        });
 
-    }catch(err){
-        console.log(`Error: $err`);
+    } catch (err) {
+        return res.status(500).json({
+            success: false,
+            message: err.message
+        });
     }
 }
 

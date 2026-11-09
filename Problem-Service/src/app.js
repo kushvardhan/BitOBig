@@ -1,5 +1,6 @@
 const express=require("express");
 const { PORT } = require("./config/server.config");
+const connectDB = require("./config/db.config");
 const app=express();
 
 app.use(express.json()); 
@@ -13,6 +14,14 @@ app.get('/health',(req,res)=>{
 })
 
 
-app.listen(PORT,()=>{
-    console.log(`Started the serveer at PORT:${PORT}`);
-})
+app.listen(PORT, async () => {
+  console.log(`Server is running on port ${PORT}`);
+  
+  try {
+    await connectDB();
+    console.log("Connected to DB.");
+  } catch (err) {
+    console.log("DB connection failed");
+    throw err;
+  }
+});
