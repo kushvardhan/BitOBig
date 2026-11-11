@@ -4,31 +4,53 @@ const { Problem } = require('../models');
 class ProblemRepository {
 
     async createProblem(problemData) {
-        const problem = await Problem.create(problemData);
-        return problem;
+        try {
+            return await Problem.create({
+                title: problemData.title,
+                description: problemData.description,
+                testCases: problemData.testCases || [],
+            })
+        } catch (err) {
+            throw err;
+        }
     }
 
     async getAllProblems() {
-        return await Problem.find();
+        try {
+            return await Problem.find();
+        } catch (err) {
+            throw err;
+        }
     }
 
     async getProblemById(problemId) {
-        return await Problem.findById(problemId);
+        try {
+            return await Problem.findById(problemId);
+        } catch (err) {
+            throw err;
+        }
     }
 
     async updateProblem(problemId, problemData) {
-        return await Problem.findByIdAndUpdate(
-            problemId,
-            problemData,
-            {
-                new: true,
-                runValidators: true
-            }
-        );
+        try {
+            return await Problem.findByIdAndUpdate(
+                problemId,
+                problemData,
+                {
+                    new: true,
+                }
+            );
+        } catch (err) {
+            throw err;
+        }
     }
 
     async deleteProblem(problemId) {
-        return await Problem.findByIdAndDelete(problemId);
+        try{
+            return await Problem.findByIdAndDelete(problemId);
+        }catch(err){
+            throw err;
+        }
     }
 }
 

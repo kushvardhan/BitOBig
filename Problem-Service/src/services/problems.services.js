@@ -5,26 +5,47 @@ class ProblemServices {
     }
 
     async createProblem(problemData) {
+        try{
         return await this.problemRepository.createProblem(problemData);
+        }catch(err){
+            throw err;
+        }
     }
 
     async getAllProblems() {
-        return await this.problemRepository.getAllProblems();
+        try{
+            return await this.problemRepository.getAllProblems();
+        }catch(err){
+            throw err;
+        }
+        
     }
 
     async getProblemById(problemId) {
-        return await this.problemRepository.getProblemById(problemId);
+        try{
+            return await this.problemRepository.getProblemById(problemId);
+        }catch(err){
+            throw err;
+        }
     }
 
-    async updateProblem(problemId, problemData) {
+    async updateProblem(problemId, problemData) {    
+        try{
         return await this.problemRepository.updateProblem(
             problemId,
             problemData
         );
+        }catch(err){
+            throw err;
+        }  
     }
 
     async deleteProblem(problemId) {
+        try{
         return await this.problemRepository.deleteProblem(problemId);
+        }catch(err){
+            throw err;
+        }
     }
 }
 

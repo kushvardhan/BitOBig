@@ -1,6 +1,6 @@
 const { ProblemServices } = require("../services");
 const { ProblemRepository } = require("../repositories");
-const { error } = require("winston");
+const {StatusCodes} = require("http-status-codes")
 
 const problemServices = new ProblemServices(
     new ProblemRepository()
@@ -73,23 +73,26 @@ async function createProblem(req,res){
 
 async function getProblemById(req,res){
     try{
-        if(!req.body || Object.keys(req.body).length === 0){
-        console.log("Request Cannot be empty");
-        }
+        
         const {id} = req.params;
 
         const problem = await problemServices.getProblemById(id);
 
         if(!problem){
-            return res.status(404).json({
+            return res.status(StatusCodes.NOT_FOUND).json({
                 success: false,
-                message: `Problem with id: ${id} not found`
+                message: `Problem with id: ${id} not found`,
+                error:{
+                    reason:"No problem found with the provided id",
+                },
+                data:{},
             });
         }
 
-            return res.status(200).json({
+            return res.status(StatusCodes.OK).json({
             success: true,
             message: `Problem Controller get Problem by id: ${id} is working!`,
+            error:{},
             data: problem
         
         });
@@ -104,20 +107,22 @@ async function getProblemById(req,res){
 
  async function updateProblem(req,res){
     try{
-        if(!req.body || Object.keys(req.body).length === 0){
-        console.log("Request Cannot be empty");
-        }
         const {id} = req.params;
         const problem = await problemServices.updateProblem(id, req.body);
         if(!problem){
-            return res.status(404).json({
+            return res.status(StatusCodes.NOT_FOUND).json({
                 success: false,
-                message: `Problem with id: ${id} not found`
+                message: `Problem with id: ${id} not found`,
+                error:{
+                    reason:"No problem found with the provided id to update"
+                },
+                data:{},
             });
         }
-              return res.status(200).json({
+              return res.status(StatusCodes.OK).json({
             success: true,
             message: `Problem Controller update Problem by id: ${id} is working!`,
+            error:{},
             data: problem
         });
 
@@ -131,20 +136,23 @@ async function getProblemById(req,res){
 
 async function deleteProblem(req,res){
     try{
-        if(!req.body || Object.keys(req.body).length === 0){
-        console.log("Request Cannot be empty");
-        }
+
         const {id} = req.params;
         const problem = await problemServices.deleteProblem(id);
         if(!problem){
             return res.status(404).json({
                 success: false,
-                message: `Problem with id: ${id} not found`
+                message: `Problem with id: ${id} not found`,
+                error:{
+                    reason:"No Problem found with the provided id to delete",
+                },
+                data:{},
             });
         }
               return res.status(200).json({
             success: true,
             message: `Problem Controller delete Problem by id: ${id} is working!`,
+            error:{},
             data: problem
         });
 
