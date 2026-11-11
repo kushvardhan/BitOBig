@@ -1,3 +1,11 @@
+const { ProblemServices } = require("../services");
+const { ProblemRepository } = require("../repositories");
+const { error } = require("winston");
+
+const problemServices = new ProblemServices(
+    new ProblemRepository()
+);
+
 function pingProblem(req, res) {
     try {
         console.log('Ping Controller');
@@ -15,25 +23,16 @@ function pingProblem(req, res) {
     }
 }
 
-async function getAllProblem(req,res){
+async function getAllProblems(req,res){
     try{
-        if(!req.body || Object.keys(req.body).length === 0){
-        console.log("Request Cannot be empty");
-        }
-        // const problem = await 
         const problems = await problemServices.getAllProblems();
-
-        if(!problems || problems.length === 0){
-            return res.status(404).json({
-                success: false,
-                message: "No problems found"
-            });
-        }
+        console.log("problem: ", problems);
 
              return res.status(200).json({
             success: true,
             message: "Problem Controller  getAllProblem Controller is working!",
-            data: problems
+            data: problems,
+            error:{},
         });
 
     } catch (err) {
@@ -46,24 +45,23 @@ async function getAllProblem(req,res){
 
 async function createProblem(req,res){
     try{
-        if(!req.body || Object.keys(req.body).length === 0){
-        console.log("Request Cannot be empty");
-        }
-        
-        const problem = await problemServices.createProblem(req.body);
+        if (!req.body || Object.keys(req.body).length === 0) {
+      throw new BadRequest("body", {
+        reason: "Request body cannot be empty",
+      });
+    }
 
-        if(!problem){
-            return res.status(400).json({
-                success: false,
-                message: "Problem creation failed"
-            });
-        }
+    const problem = await problemServices.createProblem(req.body);
+    if (!problem) {
+      throw new Error("Failed to create problem");
+    }
 
-            return res.status(200).json({
-            success: true,
-            message: "Problem Controller create problem controller is working!",
-            data: problem
-        });
+    return res.status(StatusCodes.CREATED).json({
+      success: true,
+      message: "Successfully created a new problem",
+      error: {},
+      data: problem,
+    });
 
     } catch (err) {
         return res.status(500).json({
@@ -161,7 +159,7 @@ async function deleteProblem(req,res){
 module.exports = {
   createProblem,
   getProblemById,
-  getAllProblem,
+  getAllProblems,
   updateProblem,
   deleteProblem,
   pingProblem,

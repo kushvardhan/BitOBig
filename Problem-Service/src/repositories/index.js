@@ -1,3 +1,3 @@
 module.exports = {
-    ProblemRepository : require('./problems.repository')
+    ProblemRepository: require('./problems.repositories')
 };

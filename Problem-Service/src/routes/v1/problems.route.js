@@ -5,7 +5,7 @@ const { ProblemController } = require("../../controllers");
 const router = express.Router();
 
 router.get('/ping', ProblemController.pingProblem);
-router.get('/', ProblemController.getAllProblem);
+router.get('/', ProblemController.getAllProblems);
 router.post('/', ProblemController.createProblem);
 router.get('/:id', ProblemController.getProblemById);
 router.put('/:id', ProblemController.updateProblem);

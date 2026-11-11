@@ -1,3 +1,3 @@
-module.exports={
-    Problem : require('./problems.model')
+module.exports = {
+    Problem: require('./problems.model')
 };
