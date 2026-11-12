@@ -1,5 +1,5 @@
 const {StatusCodes} = require('http-status-codes');
-const BaseError = require('./baseError');
+const BaseError = require('./base.errors');
 
 class BadRequest extends BaseError{
     constructor(propertyName, details){
