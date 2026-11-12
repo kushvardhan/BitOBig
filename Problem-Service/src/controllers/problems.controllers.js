@@ -1,6 +1,8 @@
 const { ProblemServices } = require("../services");
 const { ProblemRepository } = require("../repositories");
-const {StatusCodes} = require("http-status-codes")
+const {StatusCodes} = require("http-status-codes");
+const BadRequest = require('../errors/badRequest.errors');
+
 
 const problemServices = new ProblemServices(
     new ProblemRepository()
@@ -23,51 +25,41 @@ function pingProblem(req, res) {
     }
 }
 
-async function getAllProblems(req,res){
-    try{
+async function getAllProblems(req, res, next) {
+    try {
         const problems = await problemServices.getAllProblems();
-        console.log("problem: ", problems);
 
-             return res.status(200).json({
+        return res.status(StatusCodes.OK).json({
             success: true,
-            message: "Problem Controller  getAllProblem Controller is working!",
-            data: problems,
-            error:{},
+            message: 'Problems fetched successfully',
+            error: {},
+            data: problems
         });
 
     } catch (err) {
-        return res.status(500).json({
-            success: false,
-            message: err.message
-        });
+        next(err);
     }
 }
 
-async function createProblem(req,res){
-    try{
+async function createProblem(req, res, next) {
+    try {
         if (!req.body || Object.keys(req.body).length === 0) {
-      throw new BadRequest("body", {
-        reason: "Request body cannot be empty",
-      });
-    }
+            throw new BadRequest('body', {
+                reason: 'Request body cannot be empty'
+            });
+        }
 
-    const problem = await problemServices.createProblem(req.body);
-    if (!problem) {
-      throw new Error("Failed to create problem");
-    }
+        const problem = await problemServices.createProblem(req.body);
 
-    return res.status(StatusCodes.CREATED).json({
-      success: true,
-      message: "Successfully created a new problem",
-      error: {},
-      data: problem,
-    });
+        return res.status(StatusCodes.CREATED).json({
+            success: true,
+            message: 'Successfully created a new problem',
+            error: {},
+            data: problem
+        });
 
     } catch (err) {
-        return res.status(500).json({
-            success: false,
-            message: err.message
-        });
+        next(err);
     }
 }
 
