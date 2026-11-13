@@ -1,5 +1,5 @@
 import express from "express";
-import {addSubmission, PingTest} from "../../controllers/submissionController";
+import {addSubmission, pingTest} from "../../controllers/submissionController";
 
 const submissionRouter = express.Router();
 
