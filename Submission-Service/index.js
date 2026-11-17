@@ -1,18 +1,20 @@
-// Import the framework and instantiate it
-const fastify = require('fastify')({ logger: true })
+const fastify = require('fastify')({ logger: true }); // calling the fastify constructor
+const app = require('./app');
+const connectToDB = require('./config/dbConfig');
+const serverConfig = require('./config/serverConfig');
+const errorHandler = require('./utils/errorHandler');
+const evaluationWorker = require('./workers/evaluationWorker');
 
-// Declare a route
-fastify.get('/', async function handler (request, reply) {
-  return { hello: 'world' }
-})
+fastify.register(app);
+fastify.setErrorHandler(errorHandler);
 
-// Run the server
-const start = async () => {
-  try {
-    await fastify.listen({ port: 5000 })
-  } catch (err) {
-    fastify.log.error(err)
-    process.exit(1)
-  }
-}
-start()
+fastify.listen({ port: serverConfig.PORT }, async (err) => {
+    if (err) {
+      fastify.log.error(err);
+      process.exit(1)
+    }
+    await connectToDB();
+
+    evaluationWorker("EvaluationQueue");
+    console.log(`Server up at port ${serverConfig.PORT}`);
+});
