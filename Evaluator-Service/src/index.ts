@@ -3,12 +3,15 @@ import serverConfig from "./config/serverConfig";
 import apiRouter from './routes'
 import SampleWorker from './workers/SampleWorker';
 import SubmissionWorker from './workers/SubmissionWorker';
+import loggerMiddleware from './middleware/loggerMiddleware';
 
 const app = express();
 
 app.use(express.json());
 app.use(express.urlencoded({extended:true}));
 app.use(express.static('public'));
+
+app.use(loggerMiddleware);
 
 app.use('/api',apiRouter);
 
