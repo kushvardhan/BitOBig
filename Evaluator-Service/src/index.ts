@@ -1,6 +1,8 @@
 import express, {Request, Response} from 'express';
 import serverConfig from "./config/serverConfig";
 import apiRouter from './routes'
+import SampleWorker from './workers/SampleWorker';
+import SubmissionWorker from './workers/SubmissionWorker';
 
 const app = express();
 
@@ -20,4 +22,6 @@ app.get("/", (req:Request, res:Response)=>{
 
 app.listen(serverConfig.PORT, ()=>{
     console.log(`Server is running on Port: ${serverConfig.PORT}`);
+    SampleWorker("SampleQueue");
+    SubmissionWorker("SubmissionQueue");
 });
