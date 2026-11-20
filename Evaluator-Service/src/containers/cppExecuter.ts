@@ -1,7 +1,7 @@
 import createContainer from "./containerFactory";
 import { CPP_IMAGE } from "../utils/constants";
 import decodeBuffer from "./dockerHelper";
-import type CodeExecuterStrategy from "../interface/CodeExecuterStrategy";
+import CodeExecuterStrategy from "../interface/CodeExecuterStrategy";
 
 class CppExecuter implements CodeExecuterStrategy{
     async execute(code: string, inputTestCase: string): Promise<string> {
@@ -64,9 +64,20 @@ class CppExecuter implements CodeExecuterStrategy{
                     resolve(decodedStream.stdout);
                 }
             });
-            
 
+            loggerStream.on("error",(err)=>{
+                clearTimeout(timer);
+                reject(err);
+            });
+        });
 
-        })
+        try{
+            await cppDockerContainer.remove({
+                force:true,
+            });
+        }catch{}
+        return codeResponse;
     }
 }
+
+export default CppExecuter;
