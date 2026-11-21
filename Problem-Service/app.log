@@ -1,2 +1,8 @@
 {"level":"debug","message":"Creating problem: Word Search"}
 {"level":"info","message":"Problem created successfully: 6af55c6263e841e7607aca35"}
+{"level":"debug","message":"Fetching all problems"}
+{"level":"info","message":"Retrieved 5 problems"}
+{"level":"debug","message":"Fetching problem: 6af44dd2cd4b34131afdfd6b"}
+{"level":"debug","message":"Fetching problem: 6af44dd2cd4b34131afdfd6b"}
+{"level":"debug","message":"Fetching all problems"}
+{"level":"info","message":"Retrieved 5 problems"}
