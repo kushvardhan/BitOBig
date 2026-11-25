@@ -1,5 +1,3 @@
-// runPython.ts
-
 import createContainer from "./containerFactory";
 import { PYTHON_IMAGE } from "../utils/constants";
 import decodeBuffer from "./dockerHelper";
@@ -27,7 +25,7 @@ class PythonExecuter implements CodeExecuterStrategy{
 echo '${escapedCode}' > test.py &&
 timeout 5s python test.py << 'EOF'
 ${escapedInput}
-EOF
+EOF 
 `;
 
     const pythonDockerContainer = await createContainer(
